@@ -1,5 +1,5 @@
 /* =========================================================
-   Wharton Media & Entertainment Club — interactions
+   Media & Entertainment Club at Wharton — interactions
    ========================================================= */
 (() => {
   const root = document.documentElement;
@@ -13,9 +13,8 @@
   const menu = document.getElementById('mobileMenu');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Geometry of the source images (graphic area of the full logo vs. the whole file)
-  const FULL_W = 1276, FULL_H = 964;   // homepage-logo.webp
-  const GFX_W = 1256, GFX_H = 840;     // graphic portion (no text) inside it
+  // Both logo files share the same canvas; the small one just drops the tagline
+  const LOGO_W = 998, LOGO_H = 538;
 
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
@@ -29,24 +28,14 @@
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    // Full logo (with text) fills the screen while staying fully visible
-    const fullW = Math.min(vw * 0.84, (vh * 0.74) * (FULL_W / FULL_H), 1100);
-    const fullH = fullW * (FULL_H / FULL_W);
-    const boxW = fullW * (GFX_W / FULL_W);
-    const boxH = boxW * (GFX_H / GFX_W);
-    const fullLeft = (vw - fullW) / 2;
-    const fullTop = (vh - fullH) / 2 - vh * 0.02;
-
-    hero = {
-      x: fullLeft + fullW * (10 / FULL_W),
-      y: fullTop + fullH * (10 / FULL_H),
-      w: boxW,
-      h: boxH,
-    };
+    // Full logo fills the screen while staying fully visible
+    const w = Math.min(vw * 0.86, (vh * 0.62) * (LOGO_W / LOGO_H), 1150);
+    const h = w * (LOGO_H / LOGO_W);
+    hero = { x: (vw - w) / 2, y: (vh - h) / 2 - vh * 0.03, w, h };
 
     const r = slot.getBoundingClientRect();
-    dock = { x: r.left, y: r.top, w: r.width, h: r.width * (GFX_H / GFX_W) };
-    dock.y = r.top + (r.height - dock.h) / 2;
+    const dh = r.width * (LOGO_H / LOGO_W);
+    dock = { x: r.left, y: r.top + (r.height - dh) / 2, w: r.width, h: dh };
 
     morphDistance = Math.max(vh * 0.75, 300);
     currentP = -1; // force a repaint
@@ -63,8 +52,8 @@
     brand.style.height = h + 'px';
     brand.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 
-    // The two graphics overlap exactly: bring the text-less logo in underneath
-    // first, then fade the full logo out so only the wordmark text disappears.
+    // The two images overlap exactly: bring the tagline-free logo in underneath
+    // first, then fade the full logo out so only "Club at Wharton" disappears.
     brandSmall.style.opacity = clamp(p / 0.08);
     brandFull.style.opacity = 1 - clamp((p - 0.08) / 0.3);
 
@@ -74,7 +63,7 @@
 
   /* ---------- Scroll-linked bits ---------- */
   const progressBar = document.querySelector('.progress');
-  const perfs = document.querySelectorAll('.perf');
+  const perfs = document.querySelectorAll('.wave');
   const parallaxEls = [...document.querySelectorAll('[data-parallax]')];
 
   function onScroll() {
