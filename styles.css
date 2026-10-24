@@ -638,22 +638,32 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
   border-radius: 18px;
   box-shadow: 10px 10px 0 rgba(0, 0, 0, .3), inset 0 0 40px rgba(0, 0, 0, .5);
 }
+/* bulbs are placed evenly around the border by script.js, so none get clipped */
 .sign__bulbs {
   position: absolute;
-  inset: 5px;
-  padding: 14px;
-  border-radius: 12px;
-  background: radial-gradient(circle, var(--bulb) 0 3.6px, rgba(255, 207, 106, .35) 4.6px, transparent 6px) 0 0 / 22px 22px;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  filter: drop-shadow(0 0 4px rgba(255, 207, 106, .9));
-  animation: chase .7s steps(1) infinite;
+  inset: 0;
   pointer-events: none;
 }
-@keyframes chase {
-  0%   { background-position: 0 0; }
-  50%  { background-position: 11px 11px; }
+.bulb {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: rgba(255, 231, 163, .28);
+  animation: bulb .9s steps(1) infinite;
+  animation-delay: calc(var(--k) * -.3s);
+}
+/* each bulb is lit for one third of the cycle, offset by its position: a chasing marquee */
+@keyframes bulb {
+  0% {
+    background: var(--bulb);
+    box-shadow: 0 0 6px 2px rgba(255, 200, 90, .85);
+  }
+  33.34%, 100% {
+    background: rgba(255, 231, 163, .28);
+    box-shadow: none;
+  }
 }
 .sign__label {
   margin: 0 0 1rem;
@@ -1073,4 +1083,5 @@ body.menu-open .header__bg { opacity: 0; }
     transition-delay: 0s !important;
   }
   .grain { display: none; }
+  .bulb { background: var(--bulb); box-shadow: 0 0 6px 2px rgba(255, 200, 90, .85); }
 }

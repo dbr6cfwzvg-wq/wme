@@ -265,6 +265,58 @@
     leaderNum.textContent = leaderN;
   });
 
+  /* ---------- Marquee sign bulbs ---------- */
+  // Evenly space whole bulbs around a rounded rectangle just inside the sign's border.
+  const sign = document.querySelector('.sign');
+  const bulbBox = sign && sign.querySelector('.sign__bulbs');
+
+  function layoutBulbs() {
+    const inset = 13, r = 10, gap = 24;
+    const W = sign.clientWidth - inset * 2;
+    const H = sign.clientHeight - inset * 2;
+    if (W <= 2 * r || H <= 2 * r) return;
+
+    const sx = W - 2 * r, sy = H - 2 * r, arc = Math.PI * r / 2;
+    // perimeter walked clockwise from the top-left, after the corner
+    const segs = [
+      { len: sx,  at: t => [inset + r + t, inset] },
+      { len: arc, at: t => corner(inset + W - r, inset + r, -90, t) },
+      { len: sy,  at: t => [inset + W, inset + r + t] },
+      { len: arc, at: t => corner(inset + W - r, inset + H - r, 0, t) },
+      { len: sx,  at: t => [inset + W - r - t, inset + H] },
+      { len: arc, at: t => corner(inset + r, inset + H - r, 90, t) },
+      { len: sy,  at: t => [inset, inset + H - r - t] },
+      { len: arc, at: t => corner(inset + r, inset + r, 180, t) },
+    ];
+    function corner(cx, cy, startDeg, t) {
+      const a = (startDeg * Math.PI) / 180 + t / r;
+      return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    }
+
+    const total = segs.reduce((s, g) => s + g.len, 0);
+    const n = Math.max(12, Math.round(total / gap / 3) * 3); // multiple of 3 keeps the chase seamless
+    const step = total / n;
+
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < n; i++) {
+      let d = i * step, k = 0;
+      while (d > segs[k].len && k < segs.length - 1) d -= segs[k++].len;
+      const [x, y] = segs[k].at(d);
+      const b = document.createElement('i');
+      b.className = 'bulb';
+      b.style.left = x.toFixed(1) + 'px';
+      b.style.top = y.toFixed(1) + 'px';
+      b.style.setProperty('--k', i % 3);
+      frag.appendChild(b);
+    }
+    bulbBox.replaceChildren(frag);
+  }
+
+  if (bulbBox) {
+    layoutBulbs();
+    if ('ResizeObserver' in window) new ResizeObserver(layoutBulbs).observe(sign);
+  }
+
   /* ---------- Init ---------- */
   document.getElementById('year').textContent = new Date().getFullYear();
 
