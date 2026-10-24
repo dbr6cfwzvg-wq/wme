@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wharton Media &amp; Entertainment Club</title>
+  <meta name="description" content="The Wharton MBA Media & Entertainment Club — film/TV, live events, music, gaming, news media, and the M&E industry at-large." />
+  <meta name="theme-color" content="#f4eee3" />
+  <link rel="icon" type="image/png" href="images/logo-small.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Outfit:wght@300..700&display=swap" rel="stylesheet" />
+
+  <link rel="preload" as="image" href="images/homepage-logo.webp" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Film grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Scroll progress (film strip along the top) -->
+  <div class="progress" aria-hidden="true"><span class="progress__bar"></span></div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header" id="header">
+    <div class="header__bg" aria-hidden="true"></div>
+    <nav class="header__inner" aria-label="Primary">
+      <ul class="nav nav--left">
+        <li style="--i:0"><a href="#about" data-link="about">About</a></li>
+        <li style="--i:1"><a href="#treks" data-link="treks">Treks</a></li>
+      </ul>
+
+      <!-- Empty slot: the animated logo docks here -->
+      <span class="header__slot" id="logoSlot" aria-hidden="true"></span>
+
+      <ul class="nav nav--right">
+        <li style="--i:2"><a href="#conference" data-link="conference">Conference</a></li>
+        <li style="--i:3"><a href="#join" data-link="join" class="nav__cta">Join</a></li>
+      </ul>
+
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- The brand mark that morphs from the full-screen hero logo into the header logo -->
+  <a href="#home" class="brand" id="brand" aria-label="Wharton Media &amp; Entertainment — back to top">
+    <img class="brand__full" src="images/homepage-logo.webp" alt="Wharton Media &amp; Entertainment" />
+    <img class="brand__small" src="images/logo-small.png" alt="" aria-hidden="true" />
+  </a>
+
+  <!-- Mobile menu -->
+  <div class="menu" id="mobileMenu" aria-hidden="true">
+    <ul>
+      <li style="--i:0"><a href="#about" data-link="about"><em>01</em>About</a></li>
+      <li style="--i:1"><a href="#treks" data-link="treks"><em>02</em>Treks</a></li>
+      <li style="--i:2"><a href="#conference" data-link="conference"><em>03</em>Conference</a></li>
+      <li style="--i:3"><a href="#join" data-link="join"><em>04</em>Join</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- ============ HOME / HERO ============ -->
+    <section class="hero" id="home" aria-label="Home">
+      <div class="hero__beam" aria-hidden="true"></div>
+      <div class="hero__cue" aria-hidden="true">
+        <span>Scroll</span>
+        <i></i>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section about" id="about">
+      <div class="container about__grid">
+        <div class="about__text">
+          <p class="eyebrow" data-reveal><span>01</span> About</p>
+          <h2 class="display" data-split>Where culture <em>meets</em> capital.</h2>
+          <p class="lead" data-reveal style="--d:.15s">
+            We welcome all those interested in film/TV, live events, music, gaming, news media, and the M&amp;E industry at-large. Our mission is to help members learn more about M&amp;E, build relationships with industry professionals, and pursue career opportunities.
+          </p>
+        </div>
+
+        <figure class="about__media" data-reveal="frame">
+          <div class="frame">
+            <img src="images/about.webp" alt="Wharton Media &amp; Entertainment Club members at the Breaking Boundaries conference" loading="lazy" data-parallax="0.08" />
+          </div>
+          <figcaption>Breaking Boundaries — Where Culture Meets Capital</figcaption>
+        </figure>
+      </div>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Film &amp; TV</span><b>✦</b><span>Live Events</span><b>✦</b><span>Music</span><b>✦</b><span>Gaming</span><b>✦</b><span>News Media</span><b>✦</b><span>Sports</span><b>✦</b><span>Streaming</span><b>✦</b>
+          <span>Film &amp; TV</span><b>✦</b><span>Live Events</span><b>✦</b><span>Music</span><b>✦</b><span>Gaming</span><b>✦</b><span>News Media</span><b>✦</b><span>Sports</span><b>✦</b><span>Streaming</span><b>✦</b>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TREKS ============ -->
+    <section class="section treks" id="treks">
+      <div class="perf perf--top" aria-hidden="true"></div>
+      <div class="container">
+        <p class="eyebrow eyebrow--light" data-reveal><span>02</span> Treks</p>
+        <p class="kicker" data-reveal>🎬 Save the Date</p>
+        <h2 class="display display--light" data-split>Media &amp; Entertainment <em>NYC Trek</em></h2>
+
+        <div class="trek__meta" data-reveal>
+          <span class="chip">📍 New York City</span>
+          <span class="chip">Thursday, November 12 – Friday, November 13, 2026</span>
+        </div>
+
+        <div class="countdown" id="countdown" data-reveal aria-live="polite">
+          <div><strong data-cd="d">--</strong><span>Days</span></div>
+          <div><strong data-cd="h">--</strong><span>Hours</span></div>
+          <div><strong data-cd="m">--</strong><span>Minutes</span></div>
+          <div><strong data-cd="s">--</strong><span>Seconds</span></div>
+        </div>
+
+        <div class="trek__grid">
+          <figure class="trek__media" data-reveal="tilt">
+            <img src="images/trek.png" alt="NYC Trek — visit top M&amp;E companies including Spotify, Paramount and Fanatics, and network with Columbia Business School and NYU Stern students" loading="lazy" />
+          </figure>
+
+          <div class="trek__body">
+            <p class="lead lead--light" data-reveal>
+              Join Wharton’s Media &amp; Entertainment Club for our annual NYC Trek, a two-day opportunity to connect with leading companies and professionals shaping the media and entertainment landscape.
+            </p>
+
+            <p class="trek__subhead" data-reveal>Participants will have the opportunity to:</p>
+            <ul class="trek__list">
+              <li data-reveal style="--d:.05s">
+                <span class="trek__icon">🎥</span>
+                <p>Visit leading companies across film and TV, music, sports, and more to learn about their businesses and the evolving industry landscape.</p>
+              </li>
+              <li data-reveal style="--d:.15s">
+                <span class="trek__icon">🎙️</span>
+                <p>Hear directly from industry professionals about emerging trends, business challenges, and the future of media and entertainment.</p>
+              </li>
+              <li data-reveal style="--d:.25s">
+                <span class="trek__icon">🤝</span>
+                <p>Connect with Wharton alumni, fellow M&amp;E enthusiasts, and students from other MBA programs through a cross-school networking mixer with the CBS and NYU M&amp;E clubs.</p>
+              </li>
+            </ul>
+
+            <blockquote class="trek__callout" data-reveal>
+              Last year, <strong>~25 students</strong> attended the trek, visiting companies including <strong>YouTube, Spotify, and Paramount</strong>. This year, we’re expanding our company lineup to offer an even broader look at the industry and more opportunities to build your M&amp;E network!
+            </blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="perf perf--bottom" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ CONFERENCE ============ -->
+    <section class="section team" id="conference">
+      <div class="container team__inner">
+        <p class="eyebrow eyebrow--light" data-reveal><span>03</span> Conference</p>
+
+        <div class="leader" aria-hidden="true" data-reveal>
+          <div class="leader__sweep"></div>
+          <div class="leader__cross"></div>
+          <div class="leader__ring"></div>
+          <span class="leader__num" id="leaderNum">5</span>
+        </div>
+
+        <h2 class="display display--light team__title" data-split>2027 Conference Announcement <em>Coming Soon</em></h2>
+      </div>
+    </section>
+
+    <!-- ============ JOIN ============ -->
+    <section class="section join" id="join">
+      <div class="container join__inner">
+        <p class="eyebrow" data-reveal><span>04</span> Join</p>
+        <h2 class="display" data-split>Take your <em>seat</em>.</h2>
+        <p class="lead" data-reveal>Become a member, hop into the group chat, and follow along to see all our upcoming events.</p>
+
+        <ul class="join__links">
+          <li data-reveal style="--d:.05s">
+            <a href="https://groups.wharton.upenn.edu/mediaentertainment/club_signup" target="_blank" rel="noopener" class="icon-btn icon-btn--plus" aria-label="Join the club">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            </a>
+            <span>Join the Club</span>
+          </li>
+          <li data-reveal style="--d:.15s">
+            <a href="https://chat.whatsapp.com/DBrievc0ztX1BZLFdQda2z" target="_blank" rel="noopener" class="icon-btn icon-btn--wa" aria-label="Join our WhatsApp group">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.43 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41"/></svg>
+            </a>
+            <span>WhatsApp Group</span>
+          </li>
+          <li data-reveal style="--d:.25s">
+            <a href="https://www.instagram.com/whartonmbamec/" target="_blank" rel="noopener" class="icon-btn icon-btn--ig" aria-label="Follow us on Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/></svg>
+            </a>
+            <span>Instagram</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <img src="images/logo-small.png" alt="" class="footer__logo" loading="lazy" />
+      <p>Wharton MBA Media &amp; Entertainment Club</p>
+      <p class="footer__small">© <span id="year">2026</span> · The Wharton School, University of Pennsylvania</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
