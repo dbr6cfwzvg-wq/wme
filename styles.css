@@ -459,8 +459,8 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
-  padding: .08em .18em .22em .04em;
-  margin: -.08em -.18em -.22em -.04em;
+  padding: .08em .18em .22em .14em;
+  margin: -.08em -.18em -.22em -.14em;
 }
 .w > span {
   display: inline-block;
@@ -471,10 +471,20 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
 }
 [data-split].is-in .w > span { transform: none; }
 
+/* the script font's swashes and drop shadow reach past each word's edges,
+   so give script words a wider (invisible) window so nothing gets clipped */
+.display em .w {
+  padding-right: .5em;
+  margin-right: -.5em;
+  padding-bottom: .3em;
+  margin-bottom: -.3em;
+}
+
 /* =========================================================
    About
    ========================================================= */
 .about { padding-bottom: 0; }
+.about .display { font-size: clamp(2.9rem, 5.4vw, 5rem); }
 
 .about__grid {
   display: grid;
@@ -499,7 +509,7 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
 .snapshot:hover { transform: rotate(-3deg) scale(1.02); }
 .snapshot__img {
   overflow: hidden;
-  aspect-ratio: 885 / 561;
+  aspect-ratio: 4 / 3;
   background: var(--cream-2);
 }
 .snapshot__img img {
@@ -528,6 +538,139 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
 }
 .tape--l { left: -22px; transform: rotate(-32deg); }
 .tape--r { right: -22px; transform: rotate(28deg); }
+
+/* ---------- Now Starring (board) ---------- */
+.cast {
+  margin-top: clamp(5.5rem, 11vw, 8.5rem);
+  text-align: center;
+}
+.cast__over {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  letter-spacing: .3em;
+  color: var(--brown);
+}
+.cast__over::first-letter { color: var(--orange); }
+.cast__title {
+  margin: -.1em 0 0;
+  font-family: var(--script);
+  font-weight: 400;
+  font-size: clamp(3.6rem, 9vw, 7rem);
+  line-height: 1.1;
+  color: var(--orange);
+  text-shadow: 4px 4px 0 var(--brown);
+}
+
+.cast__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 230px));
+  justify-content: center;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+.cast__grid--leads {
+  grid-template-columns: repeat(2, minmax(0, 290px));
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+/* equal-height cards even when a name wraps */
+.star { display: flex; }
+.star__card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 0;
+  padding: 12px 12px 0;
+  background: var(--paper);
+  border: 2.5px solid var(--brown);
+  border-radius: 6px;
+  box-shadow: 8px 8px 0 var(--brown);
+  transform: rotate(var(--r, 0deg));
+  transition: transform .6s var(--bounce), box-shadow .4s var(--ease);
+}
+.star__card:hover {
+  transform: rotate(0deg) translateY(-8px) scale(1.03);
+  box-shadow: 12px 14px 0 var(--orange);
+}
+
+/* top-billing ribbon for the co-presidents */
+.star--lead .star__card::before {
+  content: "★ Top Billing ★";
+  position: absolute;
+  top: -15px; left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  padding: .2rem .9rem .05rem;
+  background: var(--orange);
+  color: var(--cream);
+  border: 2.5px solid var(--brown);
+  border-radius: 999px;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: .14em;
+  white-space: nowrap;
+}
+
+.star__photo {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--cream-2);
+}
+.star__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* vintage tint that "comes to life" on hover */
+  filter: sepia(.35) saturate(.85) contrast(1.03);
+  transition: filter .6s var(--ease), transform .8s var(--ease);
+}
+.star__card:hover .star__photo img {
+  filter: none;
+  transform: scale(1.05);
+}
+
+.star__photo--soon {
+  display: grid;
+  place-items: center;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(236, 184, 72, .35) 0deg 10deg, transparent 10deg 20deg), var(--cream);
+}
+.star__photo--soon span {
+  padding: .6rem 1rem .45rem;
+  background: var(--paper);
+  border: 2px dashed var(--brown);
+  border-radius: 6px;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  line-height: 1.1;
+  letter-spacing: .12em;
+  color: var(--brown);
+}
+
+.star__card figcaption {
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: .75rem .4rem .9rem;
+}
+.star__name {
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  line-height: 1.05;
+  letter-spacing: .05em;
+  color: var(--brown);
+}
+.star--lead .star__name { font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+.star__role {
+  font-family: var(--script);
+  font-size: 1.3rem;
+  line-height: 1.3;
+  color: var(--orange);
+}
 
 /* marquee band */
 .marquee {
@@ -980,11 +1123,40 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
   gap: .25rem;
 }
 .footer__logo {
-  width: 150px;
-  margin-bottom: 1rem;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 1.25rem;
+  border-radius: 50%;
+  border: 4px solid var(--mustard);
+  box-shadow: 0 0 0 6px rgba(236, 184, 72, .15), 5px 5px 0 6px rgba(0, 0, 0, .25);
+  transition: transform .6s var(--bounce);
 }
+.footer__logo:hover { transform: rotate(-8deg) scale(1.06); }
 .footer p { margin: 0; }
 .footer__small { font-size: .78rem; opacity: .6; }
+
+/* WGA + Wharton logos on a cream strip at the very bottom */
+.partners {
+  margin-top: 3rem;
+  margin-bottom: -3rem;
+  padding: 1.75rem 0;
+  background: var(--cream);
+  border-top: 3px solid var(--brown);
+  box-shadow: inset 0 5px 0 var(--orange);
+}
+.partners__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 5vw, 3.5rem);
+}
+.partners__wga { height: 76px; width: auto; }
+.partners__wharton { height: 64px; width: auto; }
+.partners__rule {
+  width: 2px;
+  height: 56px;
+  background: rgba(74, 29, 16, .25);
+}
 
 /* =========================================================
    Mobile menu
@@ -1054,6 +1226,8 @@ body.menu-open .header__bg { opacity: 0; }
 
   .about__media { padding: 0 .75rem; }
 
+  .cast__grid { grid-template-columns: repeat(2, minmax(0, 230px)); }
+
   .trek__media {
     position: relative;
     top: 0;
@@ -1073,6 +1247,14 @@ body.menu-open .header__bg { opacity: 0; }
   .join__links { gap: 1rem; flex-wrap: nowrap; }
   .join__links li > span { font-size: 1rem; letter-spacing: .06em; white-space: nowrap; }
   .icon-btn { width: 84px; box-shadow: 5px 5px 0 var(--brown); }
+  .cast__grid { gap: 1.5rem 1.1rem; }
+  .star__card { padding: 8px 8px 0; box-shadow: 5px 5px 0 var(--brown); }
+  .star__role { font-size: 1.1rem; }
+  .star--lead .star__card::before { font-size: .85rem; letter-spacing: .08em; }
+  .star__photo--soon span { font-size: .95rem; padding: .45rem .6rem .35rem; }
+  .partners__wga { height: 56px; }
+  .partners__wharton { height: 46px; }
+  .partners__rule { height: 40px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
