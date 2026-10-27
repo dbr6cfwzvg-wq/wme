@@ -817,6 +817,16 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
   color: var(--mustard);
 }
 
+.sign__note {
+  margin: 1.1rem 0 0;
+  padding-top: .9rem;
+  border-top: 2px dashed rgba(236, 184, 72, .35);
+  text-align: center;
+  font-size: .95rem;
+  color: rgba(246, 239, 217, .8);
+}
+.sign__note strong { color: var(--bulb); font-weight: 600; }
+
 .countdown {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -938,20 +948,54 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
 }
 .trek__list li:hover .trek__icon { transform: rotate(-12deg) scale(1.1); }
 
+/* agenda: letterboard-style lineup */
+.agenda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35rem 0;
+}
+.agenda li {
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+  line-height: 1.15;
+  letter-spacing: .04em;
+  color: var(--cream);
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, .3);
+}
+.agenda li:not(:last-child)::after {
+  content: "✦";
+  margin: 0 .7rem;
+  font-family: var(--sans);
+  font-size: .9rem;
+  vertical-align: middle;
+  color: var(--mustard);
+  text-shadow: none;
+}
+.agenda li:nth-last-child(2)::after { content: none; }
+.agenda .agenda__more {
+  margin-left: .8rem;
+  font-family: var(--script);
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  letter-spacing: 0;
+  color: var(--mustard);
+}
+
+/* "Good to Know" ticket card */
 .trek__callout {
   position: relative;
-  margin: 2.75rem 0 0;
-  padding: 1.6rem 1.75rem;
+  margin: 3rem 0 0;
+  padding: 1.9rem 1.75rem 1.5rem;
   background: var(--cream);
   color: var(--ink);
   border: 3px solid var(--brown-deep);
   border-radius: 14px;
   box-shadow: 8px 8px 0 var(--orange);
-  font-size: 1.08rem;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 .trek__callout::before {
-  content: "Last Season";
+  content: "Good to Know";
   position: absolute;
   top: -1.05rem; left: 1.25rem;
   padding: .1rem .75rem;
@@ -963,7 +1007,30 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
   font-size: 1rem;
   letter-spacing: .14em;
 }
-.trek__callout strong { color: var(--orange); }
+.trek__callout strong { color: var(--brown); }
+.fineprint li {
+  position: relative;
+  padding: .55rem 0 .55rem 1.6rem;
+  border-bottom: 1.5px dashed rgba(74, 29, 16, .2);
+}
+.fineprint li::before {
+  content: "★";
+  position: absolute;
+  left: 0; top: .55rem;
+  color: var(--orange);
+}
+.fineprint__contact {
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+.fineprint__contact a {
+  color: var(--orange);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.fineprint__contact a:hover { color: var(--brown); }
 
 /* =========================================================
    Conference

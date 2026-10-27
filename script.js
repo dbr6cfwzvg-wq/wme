@@ -224,7 +224,11 @@
   window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
   /* ---------- Trek countdown ---------- */
+  // Counts down to the application deadline, then to the trek itself.
   const countdown = document.getElementById('countdown');
+  const countdownLabel = document.getElementById('countdownLabel');
+  const countdownNote = document.getElementById('countdownNote');
+  const appsClose = new Date('2026-11-01T23:59:00-05:00');
   const trekStart = new Date('2026-11-12T09:00:00-05:00');
   const trekEnd = new Date('2026-11-13T23:59:59-05:00');
   const cd = {};
@@ -234,15 +238,25 @@
   function updateCountdown() {
     const now = new Date();
     if (now >= trekEnd) {
-      countdown.remove();
+      countdown.closest('.sign').remove();
       return false;
     }
     if (now >= trekStart) {
+      countdownLabel.textContent = 'Lights, Camera, NYC';
+      countdownNote.remove();
       countdown.classList.add('is-live');
       countdown.textContent = 'The trek is happening now — see you in NYC!';
       return false;
     }
-    let s = Math.floor((trekStart - now) / 1000);
+    let target = appsClose;
+    if (now >= appsClose) {
+      target = trekStart;
+      if (countdownNote.isConnected) {
+        countdownLabel.textContent = 'Now Boarding For The Big Apple';
+        countdownNote.textContent = 'Applications are closed · Selected applicants notified by Nov 4';
+      }
+    }
+    let s = Math.floor((target - now) / 1000);
     const d = Math.floor(s / 86400); s -= d * 86400;
     const h = Math.floor(s / 3600); s -= h * 3600;
     const m = Math.floor(s / 60); s -= m * 60;
