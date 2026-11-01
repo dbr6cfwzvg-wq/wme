@@ -228,6 +228,7 @@
   const countdown = document.getElementById('countdown');
   const countdownLabel = document.getElementById('countdownLabel');
   const countdownNote = document.getElementById('countdownNote');
+  const applyBtn = document.getElementById('applyBtn');
   const appsClose = new Date('2026-11-01T23:59:00-05:00');
   const trekStart = new Date('2026-11-12T09:00:00-05:00');
   const trekEnd = new Date('2026-11-13T23:59:59-05:00');
@@ -244,6 +245,7 @@
     if (now >= trekStart) {
       countdownLabel.textContent = 'Lights, Camera, NYC';
       countdownNote.remove();
+      if (applyBtn) applyBtn.remove();
       countdown.classList.add('is-live');
       countdown.textContent = 'The trek is happening now — see you in NYC!';
       return false;
@@ -255,6 +257,7 @@
         countdownLabel.textContent = 'Now Boarding For The Big Apple';
         countdownNote.textContent = 'Applications are closed · Selected applicants notified by Nov 4';
       }
+      if (applyBtn) applyBtn.remove();
     }
     let s = Math.floor((target - now) / 1000);
     const d = Math.floor(s / 86400); s -= d * 86400;

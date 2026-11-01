@@ -827,6 +827,32 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
 }
 .sign__note strong { color: var(--bulb); font-weight: 600; }
 
+.apply-btn {
+  display: table;
+  margin: 1.25rem auto .25rem;
+  padding: .75rem 1.9rem .6rem;
+  background: var(--orange);
+  color: var(--cream);
+  border: 3px solid var(--mustard);
+  border-radius: 999px;
+  box-shadow: 5px 5px 0 var(--mustard);
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: .1em;
+  text-shadow: 2px 2px 0 var(--brown-deep);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s;
+}
+.apply-btn span { display: inline-block; transition: transform .4s var(--bounce); }
+.apply-btn:hover,
+.apply-btn:focus-visible {
+  background: var(--orange-hi);
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--mustard);
+}
+.apply-btn:hover span { transform: translateX(5px); }
+.apply-btn:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 var(--mustard); }
+
 .countdown {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -972,15 +998,6 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
   color: var(--mustard);
   text-shadow: none;
 }
-.agenda li:nth-last-child(2)::after { content: none; }
-.agenda .agenda__more {
-  margin-left: .8rem;
-  font-family: var(--script);
-  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
-  letter-spacing: 0;
-  color: var(--mustard);
-}
-
 /* "Good to Know" ticket card */
 .trek__callout {
   position: relative;
