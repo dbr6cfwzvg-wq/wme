@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conference · Media &amp; Entertainment Club at Wharton</title>
+  <meta name="description" content="The Wharton MBA Media &amp; Entertainment Club: film/TV, live events, music, gaming, sports, news media, and the M&amp;E industry at-large." />
+  <meta name="theme-color" content="#f6efd9" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Yellowtail&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="conference" class="is-subpage">
+  <!-- Paper grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Scroll progress (candy-stripe along the top) -->
+  <div class="progress" aria-hidden="true"><span class="progress__bar"></span></div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header" id="header">
+    <div class="header__bg" aria-hidden="true"></div>
+    <nav class="header__inner" aria-label="Primary">
+      <!-- Empty slot: the logo docks here -->
+      <span class="header__slot" id="logoSlot" aria-hidden="true"></span>
+
+      <ul class="nav">
+        <li style="--i:0"><a href="index.html#about" data-link="about">About</a></li>
+        <li style="--i:1"><a href="treks.html" data-link="treks">Treks</a></li>
+        <li style="--i:2"><a href="team.html" data-link="team">Team</a></li>
+        <li style="--i:3"><a href="conference.html" data-link="conference" aria-current="page">Conference</a></li>
+        <li style="--i:4"><a href="join.html" data-link="join" class="nav__cta">Join</a></li>
+      </ul>
+
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- The brand mark -->
+  <a href="index.html" class="brand" id="brand" aria-label="Media &amp; Entertainment Club at Wharton — home">
+    <img class="brand__small" src="images/logo-small.png" alt="Media &amp; Entertainment Club at Wharton" />
+  </a>
+
+  <!-- Mobile menu -->
+  <div class="menu" id="mobileMenu" aria-hidden="true">
+    <ul>
+      <li style="--i:0"><a href="index.html#about" data-link="about"><em>01</em>About</a></li>
+      <li style="--i:1"><a href="treks.html" data-link="treks"><em>02</em>Treks</a></li>
+      <li style="--i:2"><a href="team.html" data-link="team"><em>03</em>Team</a></li>
+      <li style="--i:3"><a href="conference.html" data-link="conference" aria-current="page"><em>04</em>Conference</a></li>
+      <li style="--i:4"><a href="join.html" data-link="join"><em>05</em>Join</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- ============ CONFERENCE ============ -->
+    <section class="section section--page conference" id="conference">
+      <div class="conference__burst" aria-hidden="true"></div>
+      <div class="container conference__inner">
+        <p class="eyebrow eyebrow--light" data-reveal><span>No. 04</span> Conference</p>
+
+        <div class="leader" aria-hidden="true" data-reveal>
+          <div class="leader__sweep"></div>
+          <div class="leader__cross"></div>
+          <div class="leader__ring"></div>
+          <span class="leader__num" id="leaderNum">5</span>
+        </div>
+
+        <h2 class="display display--light conference__title" data-split>2027 Conference Announcement <em>Coming Soon</em></h2>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <img src="images/popcorn.webp" alt="" class="footer__logo" loading="lazy" />
+      <p>Media &amp; Entertainment Club at Wharton</p>
+      <p class="footer__small">© <span id="year">2026</span> · The Wharton School, University of Pennsylvania</p>
+    </div>
+    <div class="partners">
+      <div class="container partners__inner">
+        <img src="images/wga.png" alt="Wharton Graduate Association" class="partners__wga" loading="lazy" />
+        <span class="partners__rule" aria-hidden="true"></span>
+        <img src="images/wharton.png" alt="Wharton, University of Pennsylvania — Student Initiative" class="partners__wharton" loading="lazy" />
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

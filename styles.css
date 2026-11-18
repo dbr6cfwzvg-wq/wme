@@ -139,14 +139,17 @@ ul { list-style: none; margin: 0; padding: 0; }
   max-width: 1240px;
   margin: 0 auto;
   padding: 0 var(--gutter);
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
-  gap: clamp(1.5rem, 4vw, 4rem);
+  justify-content: center;
+  /* one spacing value between the logo and every link */
+  --nav-gap: clamp(1.5rem, 3.2vw, 3rem);
+  gap: var(--nav-gap);
 }
 
+/* logo leads on the left; the logo + links sit centered as one group */
 .header__slot {
-  grid-column: 2;
+  flex: none;
   display: block;
   width: var(--logo-w);
   aspect-ratio: 998 / 538;
@@ -155,17 +158,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 .nav {
   display: flex;
   align-items: center;
-  gap: clamp(1.25rem, 3vw, 2.75rem);
+  gap: var(--nav-gap);
 }
-.nav--left  { justify-content: flex-end; }
-.nav--right { justify-content: flex-start; }
-
 .nav li {
-  /* each item pops out of the logo as it docks, slightly staggered */
+  /* each item slides out from the logo as it docks, slightly staggered */
   opacity: clamp(0, calc((var(--p) - .45 - var(--i) * .06) * 4), 1);
+  transform: translateX(calc((1 - var(--p)) * -70px));
 }
-.nav--left li  { transform: translateX(calc((1 - var(--p)) * 60px)); }
-.nav--right li { transform: translateX(calc((1 - var(--p)) * -60px)); }
 
 .nav a {
   position: relative;
@@ -216,8 +215,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 /* Burger (mobile only) */
 .burger {
   display: none;
-  grid-column: 3;
-  justify-self: end;
+  flex: none;
   width: 46px; height: 46px;
   border: 2.5px solid var(--brown);
   border-radius: 50%;
@@ -483,7 +481,7 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
 /* =========================================================
    About
    ========================================================= */
-.about { padding-bottom: 0; }
+.about { padding-bottom: clamp(5rem, 10vw, 8rem); }
 .about .display { font-size: clamp(2.9rem, 5.4vw, 5rem); }
 
 .about__grid {
@@ -718,7 +716,6 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
    Treks
    ========================================================= */
 .treks {
-  margin-top: clamp(4rem, 8vw, 6rem);
   background:
     radial-gradient(rgba(246, 239, 217, .07) 1.2px, transparent 1.6px) 0 0 / 14px 14px,
     var(--teal);
@@ -741,7 +738,7 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
 }
 .wave--bottom {
   bottom: 0;
-  background-image: radial-gradient(circle at 26px 26px, var(--brown-deep) 25px, transparent 26px);
+  background-image: radial-gradient(circle at 26px 26px, var(--wave-next, var(--brown-deep)) 25px, transparent 26px);
   background-position: calc(var(--perf-x, 0px) * -1) 0;
 }
 
@@ -1198,7 +1195,7 @@ body.menu-open .burger span:nth-child(2) { top: 19px; transform: rotate(-45deg);
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 26px;
-  background: radial-gradient(circle at 26px 0, var(--cream) 25px, transparent 26px) 0 0 / 52px 26px repeat-x;
+  background: radial-gradient(circle at 26px 0, var(--footer-above, var(--cream)) 25px, transparent 26px) 0 0 / 52px 26px repeat-x;
 }
 .footer__inner {
   display: flex;
@@ -1297,12 +1294,260 @@ body.menu-open .menu li {
 body.menu-open .header__bg { opacity: 0; }
 
 /* =========================================================
+   Multi-page layout
+   ========================================================= */
+/* inner pages: header is docked from the start, content clears it */
+.section--page {
+  min-height: 82vh;
+  min-height: 82svh;
+  padding-top: calc(var(--header-h) + clamp(4.5rem, 9vw, 7rem));
+}
+/* inner pages render with the header already docked, even before script runs */
+.is-subpage { --p: 1; }
+
+/* footer scallops take the colour of whatever sits above them */
+body[data-page="treks"]      { --footer-above: #c4611c; }
+body[data-page="conference"] { --footer-above: var(--brown-deep); }
+
+/* ---------- About: NYC Trek photo carousel ---------- */
+.carousel {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--brown-deep);
+  touch-action: pan-y;
+}
+.carousel__track { position: absolute; inset: 0; }
+.carousel__slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity .9s var(--ease), transform 1.6s var(--ease);
+}
+/* blurred copy of the photo fills the frame behind portrait shots */
+.carousel__slide::before {
+  content: "";
+  position: absolute;
+  inset: -30px;
+  background: var(--bg) center / cover no-repeat;
+  filter: blur(22px) brightness(.55) sepia(.3);
+}
+.carousel__slide img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: sepia(.12) saturate(1.05) contrast(1.02);
+}
+.carousel__slide.is-active {
+  opacity: 1;
+  transform: none;
+  z-index: 1;
+}
+.carousel__btn {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  margin-top: -22px;
+  padding: 0 0 4px;
+  border: 2.5px solid var(--brown);
+  border-radius: 50%;
+  background: var(--mustard);
+  color: var(--brown);
+  box-shadow: 3px 3px 0 var(--brown);
+  font: 400 2rem/1 var(--display);
+  cursor: pointer;
+  opacity: .92;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s;
+}
+.carousel__btn--prev { left: 12px; }
+.carousel__btn--next { right: 12px; }
+.carousel__btn:hover { background: var(--orange); color: var(--cream); transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--brown); }
+.carousel__btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--brown); }
+
+.carousel__dots { display: inline-flex; gap: .45rem; flex: none; }
+.carousel__dot {
+  width: 12px; height: 12px;
+  padding: 0;
+  border: 2px solid var(--brown);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: background .3s, transform .3s var(--bounce);
+}
+.carousel__dot.is-active { background: var(--orange); transform: scale(1.2); }
+.carousel__dot:hover { background: var(--mustard); }
+
+/* ---------- retro buttons ---------- */
+.btn-retro {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: 2.5rem;
+  padding: .8rem 1.6rem .65rem;
+  background: var(--orange);
+  color: var(--cream);
+  border: 3px solid var(--mustard);
+  border-radius: 999px;
+  box-shadow: 5px 5px 0 var(--mustard);
+  font-family: var(--display);
+  font-size: 1.4rem;
+  line-height: 1;
+  letter-spacing: .08em;
+  text-shadow: 2px 2px 0 var(--brown-deep);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s;
+}
+.btn-retro span { display: inline-block; transition: transform .4s var(--bounce); }
+.btn-retro:hover { background: var(--orange-hi); transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--mustard); }
+.btn-retro:hover span { transform: translateX(5px); }
+.btn-retro:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 var(--mustard); }
+.btn-retro--dark { border-color: var(--brown-deep); box-shadow: 5px 5px 0 var(--brown-deep); }
+.btn-retro--dark:hover { box-shadow: 8px 8px 0 var(--brown-deep); }
+.btn-retro--dark:active { box-shadow: 1px 1px 0 var(--brown-deep); }
+
+/* ---------- Treks: LA 2027 coming soon ---------- */
+.treks { --wave-next: #f2b552; }
+.la {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: clamp(7rem, 14vw, 10rem);
+  background: linear-gradient(180deg, #f2b552 0%, #e98c2c 55%, #c4611c 100%);
+  color: var(--brown-deep);
+}
+.la__burst {
+  position: absolute;
+  left: 50%; top: 45%;
+  width: 220vmax; height: 220vmax;
+  margin: -110vmax 0 0 -110vmax;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 240, 200, .12) 0deg 6deg, transparent 6deg 12deg);
+  -webkit-mask: radial-gradient(circle, #000 5%, transparent 32%);
+  mask: radial-gradient(circle, #000 5%, transparent 32%);
+  animation: spin 100s linear infinite;
+  pointer-events: none;
+}
+.la__inner { text-align: center; }
+.la .eyebrow { color: var(--brown-deep); }
+.la .eyebrow span { color: var(--paper); text-shadow: 2px 2px 0 var(--brown); }
+.sign--la {
+  max-width: 600px;
+  margin: 1rem auto 0;
+  padding: 2.6rem 2rem 2.3rem;
+  box-shadow: 12px 12px 0 rgba(42, 17, 10, .45), inset 0 0 40px rgba(0, 0, 0, .5);
+}
+.la__title {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(3.6rem, 10vw, 6.5rem);
+  line-height: .95;
+  letter-spacing: .03em;
+  color: var(--bulb);
+  text-shadow: 0 0 18px rgba(255, 190, 80, .6), 4px 4px 0 var(--orange);
+}
+.la__title span { color: var(--mustard); }
+.la__soon {
+  margin: .2rem 0 0;
+  font-family: var(--script);
+  font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+  line-height: 1.2;
+  color: var(--orange-hi);
+  text-shadow: 3px 3px 0 #000;
+}
+.la__lead {
+  margin: 2.75rem auto 0;
+  color: var(--brown-deep);
+}
+
+/* ---------- Team page ---------- */
+/* committee groups */
+.crew { margin-top: clamp(4rem, 8vw, 6rem); }
+.crew__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  margin: 0 auto;
+  max-width: 760px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  letter-spacing: .1em;
+  line-height: 1;
+  color: var(--brown);
+}
+/* ✦ ——— TITLE ——— ✦ */
+.crew__title::before,
+.crew__title::after {
+  content: "";
+  flex: 1;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, var(--orange));
+}
+.crew__title::after { background: linear-gradient(90deg, var(--orange), transparent); }
+.crew__title span {
+  padding: .55rem 1.3rem .4rem;
+  background: var(--brown-deep);
+  color: var(--bulb);
+  border: 3px solid var(--mustard);
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 var(--orange);
+  text-shadow: 0 0 10px rgba(255, 190, 80, .5);
+  white-space: nowrap;
+}
+.crew__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1.25rem, 2.6vw, 2.25rem);
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+}
+.star--crew { width: clamp(150px, 15vw, 196px); }
+.star--crew .star__card { padding: 9px 9px 0; box-shadow: 6px 6px 0 var(--brown); }
+.star--crew .star__name { font-size: clamp(1.15rem, 1.6vw, 1.4rem); }
+.star--crew figcaption { padding: .6rem .3rem .7rem; }
+
+/* placeholder headshot: initials on a sunburst */
+.star__photo--soon .star__initials {
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--display);
+  font-size: clamp(3rem, 5vw, 4rem);
+  line-height: 1;
+  letter-spacing: .04em;
+  color: var(--brown);
+  text-shadow: 3px 3px 0 var(--mustard);
+}
+
+.team-page { overflow: hidden; }
+.team-page .cast { margin-top: 0; }
+.team-page__burst {
+  position: absolute;
+  left: 50%; top: 18%;
+  width: 220vmax; height: 220vmax;
+  margin: -110vmax 0 0 -110vmax;
+  background: repeating-conic-gradient(from 0deg, rgba(217, 120, 24, .07) 0deg 7.5deg, transparent 7.5deg 15deg);
+  -webkit-mask: radial-gradient(circle, #000 4%, transparent 26%);
+  mask: radial-gradient(circle, #000 4%, transparent 26%);
+  animation: spin 120s linear infinite;
+  pointer-events: none;
+}
+
+/* =========================================================
    Responsive
    ========================================================= */
 @media (max-width: 900px) {
   :root { --header-h: 80px; --logo-w: 122px; }
 
   .nav { display: none; }
+  /* phones: logo on the left, menu button on the right */
+  .header__inner { justify-content: space-between; }
   .burger { display: block; }
 
   .about__grid,
@@ -1332,6 +1577,9 @@ body.menu-open .header__bg { opacity: 0; }
   .join__links li > span { font-size: 1rem; letter-spacing: .06em; white-space: nowrap; }
   .icon-btn { width: 84px; box-shadow: 5px 5px 0 var(--brown); }
   .cast__grid { gap: 1.5rem 1.1rem; }
+  .star--crew { width: calc(50% - .6rem); }
+  .crew__grid { gap: 1.5rem 1.1rem; }
+  .crew__title { gap: .6rem; }
   .star__card { padding: 8px 8px 0; box-shadow: 5px 5px 0 var(--brown); }
   .star__role { font-size: 1.1rem; }
   .star--lead .star__card::before { font-size: .85rem; letter-spacing: .08em; }

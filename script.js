@@ -6,12 +6,14 @@
   const body = document.body;
   const header = document.getElementById('header');
   const brand = document.getElementById('brand');
-  const brandFull = brand.querySelector('.brand__full');
+  const brandFull = brand.querySelector('.brand__full'); // only on the home page
   const brandSmall = brand.querySelector('.brand__small');
   const slot = document.getElementById('logoSlot');
   const burger = document.getElementById('burger');
   const menu = document.getElementById('mobileMenu');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Only the home page has the full-screen logo; inner pages start docked.
+  const isHome = !!document.querySelector('.hero');
 
   // Both logo files share the same canvas; the small one just drops the tagline
   const LOGO_W = 998, LOGO_H = 538;
@@ -36,9 +38,11 @@
     const r = slot.getBoundingClientRect();
     const dh = r.width * (LOGO_H / LOGO_W);
     dock = { x: r.left, y: r.top + (r.height - dh) / 2, w: r.width, h: dh };
+    if (!isHome) hero = dock;
 
     morphDistance = Math.max(vh * 0.75, 300);
     currentP = -1; // force a repaint
+    if (!isHome) requestAnimationFrame(tick); // inner pages only repaint on demand
   }
 
   function renderMorph(p) {
@@ -55,7 +59,7 @@
     // The two images overlap exactly: bring the tagline-free logo in underneath
     // first, then fade the full logo out so only "Club at Wharton" disappears.
     brandSmall.style.opacity = clamp(p / 0.08);
-    brandFull.style.opacity = 1 - clamp((p - 0.08) / 0.3);
+    if (brandFull) brandFull.style.opacity = 1 - clamp((p - 0.08) / 0.3);
 
     root.style.setProperty('--p', p.toFixed(4));
     header.classList.toggle('is-docked', p > 0.85);
@@ -68,7 +72,7 @@
 
   function onScroll() {
     const y = window.scrollY;
-    targetP = clamp(y / morphDistance);
+    targetP = isHome ? clamp(y / morphDistance) : 1;
 
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progressBar.style.setProperty('--progress', max > 0 ? (y / max).toFixed(4) : 0);
@@ -91,7 +95,7 @@
     else currentP += (targetP - currentP) * (reduceMotion ? 1 : 0.16);
     if (Math.abs(targetP - currentP) < 0.0005) currentP = targetP;
     renderMorph(currentP);
-    requestAnimationFrame(tick);
+    if (isHome) requestAnimationFrame(tick);
   }
 
   /* ---------- Smooth anchor scrolling ---------- */
@@ -122,40 +126,47 @@
   );
 
   function targetFor(id) {
-    if (id === 'home') return 0;
+    if (id === 'home' || id === '') return 0;
     const el = document.getElementById(id);
     if (!el) return null;
     const headerH = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 80;
     const top = el.getBoundingClientRect().top + window.scrollY - headerH + 1;
     // never land inside the hero morph zone — always fully docked
-    return Math.max(top, morphDistance);
+    return isHome ? Math.max(top, morphDistance) : top;
   }
 
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
+  // Links to somewhere on the current page (e.g. the logo or "About" on the
+  // home page) glide there; links to other pages load normally.
+  const samePath = url =>
+    url.origin === location.origin &&
+    url.pathname.replace(/index\.html$/, '') === location.pathname.replace(/index\.html$/, '');
+
+  document.querySelectorAll('a[href]').forEach(a => {
     a.addEventListener('click', e => {
-      const id = a.getAttribute('href').slice(1);
+      if (e.metaKey || e.ctrlKey || e.shiftKey || a.target === '_blank') return;
+      const url = new URL(a.href, location.href);
+      if (!samePath(url)) return;
+      const id = url.hash.slice(1);
       const y = targetFor(id);
       if (y === null) return;
       e.preventDefault();
       closeMenu();
       smoothScrollTo(y);
-      history.replaceState(null, '', '#' + id);
+      history.replaceState(null, '', id ? '#' + id : location.pathname);
     });
   });
 
   /* ---------- Active nav link ---------- */
-  const sectionIds = ['about', 'treks', 'conference', 'join'];
+  // Inner pages highlight their own link; the home page lights up "About"
+  // once the About section scrolls into view.
   const links = document.querySelectorAll('[data-link]');
+  const aboutEl = document.getElementById('about');
 
   function updateActive() {
-    const mark = window.innerHeight * 0.4;
-    let active = null;
-    sectionIds.forEach(id => {
-      const el = document.getElementById(id);
-      if (el && el.getBoundingClientRect().top <= mark) active = id;
-    });
-    // bottom of page → last section
-    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) active = 'join';
+    let active = body.dataset.page;
+    if (isHome) {
+      active = aboutEl && aboutEl.getBoundingClientRect().top <= window.innerHeight * 0.4 ? 'about' : null;
+    }
     links.forEach(l => l.classList.toggle('is-active', l.dataset.link === active));
   }
 
@@ -223,71 +234,21 @@
   });
   window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
-  /* ---------- Trek countdown ---------- */
-  // Counts down to the application deadline, then to the trek itself.
-  const countdown = document.getElementById('countdown');
-  const countdownLabel = document.getElementById('countdownLabel');
-  const countdownNote = document.getElementById('countdownNote');
-  const applyBtn = document.getElementById('applyBtn');
-  const appsClose = new Date('2026-11-01T23:59:00-05:00');
-  const trekStart = new Date('2026-11-12T09:00:00-05:00');
-  const trekEnd = new Date('2026-11-13T23:59:59-05:00');
-  const cd = {};
-  countdown.querySelectorAll('[data-cd]').forEach(el => (cd[el.dataset.cd] = el));
-  const pad = v => String(v).padStart(2, '0');
-
-  function updateCountdown() {
-    const now = new Date();
-    if (now >= trekEnd) {
-      countdown.closest('.sign').remove();
-      return false;
-    }
-    if (now >= trekStart) {
-      countdownLabel.textContent = 'Lights, Camera, NYC';
-      countdownNote.remove();
-      if (applyBtn) applyBtn.remove();
-      countdown.classList.add('is-live');
-      countdown.textContent = 'The trek is happening now — see you in NYC!';
-      return false;
-    }
-    let target = appsClose;
-    if (now >= appsClose) {
-      target = trekStart;
-      if (countdownNote.isConnected) {
-        countdownLabel.textContent = 'Now Boarding For The Big Apple';
-        countdownNote.textContent = 'Applications are closed · Selected applicants notified by Nov 4';
-      }
-      if (applyBtn) applyBtn.remove();
-    }
-    let s = Math.floor((target - now) / 1000);
-    const d = Math.floor(s / 86400); s -= d * 86400;
-    const h = Math.floor(s / 3600); s -= h * 3600;
-    const m = Math.floor(s / 60); s -= m * 60;
-    cd.d.textContent = pad(d);
-    cd.h.textContent = pad(h);
-    cd.m.textContent = pad(m);
-    cd.s.textContent = pad(s);
-    return true;
-  }
-  if (updateCountdown()) {
-    const timer = setInterval(() => { if (!updateCountdown()) clearInterval(timer); }, 1000);
-  }
-
   /* ---------- Film-leader countdown (Conference) ---------- */
   const leaderNum = document.getElementById('leaderNum');
   const sweep = document.querySelector('.leader__sweep');
   let leaderN = 5;
-  sweep.addEventListener('animationiteration', () => {
-    leaderN = leaderN <= 1 ? 5 : leaderN - 1;
-    leaderNum.textContent = leaderN;
-  });
+  if (sweep && leaderNum) {
+    sweep.addEventListener('animationiteration', () => {
+      leaderN = leaderN <= 1 ? 5 : leaderN - 1;
+      leaderNum.textContent = leaderN;
+    });
+  }
 
   /* ---------- Marquee sign bulbs ---------- */
   // Evenly space whole bulbs around a rounded rectangle just inside the sign's border.
-  const sign = document.querySelector('.sign');
-  const bulbBox = sign && sign.querySelector('.sign__bulbs');
-
-  function layoutBulbs() {
+  function layoutBulbs(sign) {
+    const bulbBox = sign.querySelector('.sign__bulbs');
     const inset = 13, r = 10, gap = 24;
     const W = sign.clientWidth - inset * 2;
     const H = sign.clientHeight - inset * 2;
@@ -329,9 +290,69 @@
     bulbBox.replaceChildren(frag);
   }
 
-  if (bulbBox) {
-    layoutBulbs();
-    if ('ResizeObserver' in window) new ResizeObserver(layoutBulbs).observe(sign);
+  document.querySelectorAll('.sign').forEach(sign => {
+    if (!sign.querySelector('.sign__bulbs')) return;
+    layoutBulbs(sign);
+    if ('ResizeObserver' in window) new ResizeObserver(() => layoutBulbs(sign)).observe(sign);
+  });
+
+  /* ---------- About: NYC Trek photo carousel ---------- */
+  const carousel = document.getElementById('carousel');
+  if (carousel) {
+    const slides = [...carousel.querySelectorAll('.carousel__slide')];
+    const dots = [...document.querySelectorAll('.carousel__dot')];
+    let index = 0, timer = null;
+
+    const show = i => {
+      index = (i + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        s.classList.toggle('is-active', k === index);
+        s.setAttribute('aria-hidden', String(k !== index));
+      });
+      dots.forEach((d, k) => {
+        d.classList.toggle('is-active', k === index);
+        d.setAttribute('aria-current', String(k === index));
+      });
+    };
+    const play = () => {
+      if (reduceMotion) return;
+      clearInterval(timer);
+      timer = setInterval(() => show(index + 1), 5000);
+    };
+    const stop = () => clearInterval(timer);
+
+    carousel.querySelector('.carousel__btn--prev').addEventListener('click', () => { show(index - 1); play(); });
+    carousel.querySelector('.carousel__btn--next').addEventListener('click', () => { show(index + 1); play(); });
+    dots.forEach((d, k) => d.addEventListener('click', () => { show(k); play(); }));
+
+    // pause while someone is looking closely
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', play);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', play);
+
+    // swipe on touch screens
+    let x0 = null;
+    carousel.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; stop(); }, { passive: true });
+    carousel.addEventListener('touchend', e => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) show(index + (dx < 0 ? 1 : -1));
+      x0 = null;
+      play();
+    });
+
+    carousel.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') { show(index - 1); play(); }
+      if (e.key === 'ArrowRight') { show(index + 1); play(); }
+    });
+
+    // only auto-advance while the carousel is on screen
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([en]) => (en.isIntersecting ? play() : stop())).observe(carousel);
+    } else {
+      play();
+    }
   }
 
   /* ---------- Init ---------- */
@@ -349,11 +370,11 @@
   updateActive();
   requestAnimationFrame(tick);
 
-  // honour deep links like /#treks once fonts/layout have settled
+  // honour deep links like index.html#about once fonts/layout have settled
   window.addEventListener('load', () => {
     measure();
     const id = location.hash.slice(1);
-    if (id && id !== 'home') {
+    if (id && id !== 'home' && document.getElementById(id)) {
       const y = targetFor(id);
       if (y !== null) window.scrollTo(0, y);
     }

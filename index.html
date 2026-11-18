@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Media &amp; Entertainment Club at Wharton</title>
-  <meta name="description" content="The Wharton MBA Media & Entertainment Club — film/TV, live events, music, gaming, news media, and the M&E industry at-large." />
+  <meta name="description" content="The Wharton MBA Media &amp; Entertainment Club: film/TV, live events, music, gaming, sports, news media, and the M&amp;E industry at-large." />
   <meta name="theme-color" content="#f6efd9" />
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png" />
@@ -13,12 +13,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Yellowtail&display=swap" rel="stylesheet" />
-
   <link rel="preload" as="image" href="images/logo-full.webp" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <!-- Paper grain + halftone overlays -->
+<body data-page="home">
+  <!-- Paper grain overlay -->
   <div class="grain" aria-hidden="true"></div>
 
   <!-- Scroll progress (candy-stripe along the top) -->
@@ -28,17 +27,15 @@
   <header class="header" id="header">
     <div class="header__bg" aria-hidden="true"></div>
     <nav class="header__inner" aria-label="Primary">
-      <ul class="nav nav--left">
-        <li style="--i:0"><a href="#about" data-link="about">About</a></li>
-        <li style="--i:1"><a href="#treks" data-link="treks">Treks</a></li>
-      </ul>
-
-      <!-- Empty slot: the animated logo docks here -->
+      <!-- Empty slot: the logo docks here -->
       <span class="header__slot" id="logoSlot" aria-hidden="true"></span>
 
-      <ul class="nav nav--right">
-        <li style="--i:2"><a href="#conference" data-link="conference">Conference</a></li>
-        <li style="--i:3"><a href="#join" data-link="join" class="nav__cta">Join</a></li>
+      <ul class="nav">
+        <li style="--i:0"><a href="index.html#about" data-link="about">About</a></li>
+        <li style="--i:1"><a href="treks.html" data-link="treks">Treks</a></li>
+        <li style="--i:2"><a href="team.html" data-link="team">Team</a></li>
+        <li style="--i:3"><a href="conference.html" data-link="conference">Conference</a></li>
+        <li style="--i:4"><a href="join.html" data-link="join" class="nav__cta">Join</a></li>
       </ul>
 
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -48,7 +45,7 @@
   </header>
 
   <!-- The brand mark that morphs from the full-screen hero logo into the header logo -->
-  <a href="#home" class="brand" id="brand" aria-label="Media &amp; Entertainment Club at Wharton — back to top">
+  <a href="index.html" class="brand" id="brand" aria-label="Media &amp; Entertainment Club at Wharton — home">
     <img class="brand__full" src="images/logo-full.webp" alt="Media &amp; Entertainment Club at Wharton" />
     <img class="brand__small" src="images/logo-small.png" alt="" aria-hidden="true" />
   </a>
@@ -56,10 +53,11 @@
   <!-- Mobile menu -->
   <div class="menu" id="mobileMenu" aria-hidden="true">
     <ul>
-      <li style="--i:0"><a href="#about" data-link="about"><em>01</em>About</a></li>
-      <li style="--i:1"><a href="#treks" data-link="treks"><em>02</em>Treks</a></li>
-      <li style="--i:2"><a href="#conference" data-link="conference"><em>03</em>Conference</a></li>
-      <li style="--i:3"><a href="#join" data-link="join"><em>04</em>Join</a></li>
+      <li style="--i:0"><a href="index.html#about" data-link="about"><em>01</em>About</a></li>
+      <li style="--i:1"><a href="treks.html" data-link="treks"><em>02</em>Treks</a></li>
+      <li style="--i:2"><a href="team.html" data-link="team"><em>03</em>Team</a></li>
+      <li style="--i:3"><a href="conference.html" data-link="conference"><em>04</em>Conference</a></li>
+      <li style="--i:4"><a href="join.html" data-link="join"><em>05</em>Join</a></li>
     </ul>
   </div>
 
@@ -96,61 +94,11 @@
             <span class="tape tape--l" aria-hidden="true"></span>
             <span class="tape tape--r" aria-hidden="true"></span>
             <div class="snapshot__img">
-              <img src="images/about.webp" alt="Media &amp; Entertainment Club members gathered in front of the Spotify logo during a company visit" loading="lazy" data-parallax="0.06" />
+              <img src="images/trek-nyc/01-hearst-group.webp" alt="Media &amp; Entertainment Club members at Hearst during the 2026 NYC Trek" loading="lazy" data-parallax="0.06" />
             </div>
-            <figcaption>Backstage at Spotify ✦ NYC Trek</figcaption>
+            <figcaption>NYC Trek ✦ November 2026</figcaption>
           </div>
         </figure>
-      </div>
-
-      <!-- Now Starring: board leadership -->
-      <div class="cast container">
-        <div class="cast__head" data-reveal>
-          <p class="cast__over">✦ Our Board Leadership ✦</p>
-          <h3 class="cast__title">Now Starring</h3>
-        </div>
-
-        <ul class="cast__grid cast__grid--leads">
-          <li class="star star--lead" data-reveal style="--r:-2deg">
-            <figure class="star__card">
-              <div class="star__photo"><img src="images/board/sam-fleming.webp" alt="Sam Fleming" loading="lazy" /></div>
-              <figcaption><span class="star__name">Sam Fleming</span><span class="star__role">Co-President</span></figcaption>
-            </figure>
-          </li>
-          <li class="star star--lead" data-reveal style="--d:.1s; --r:2deg">
-            <figure class="star__card">
-              <div class="star__photo"><img src="images/board/irena-wan.webp" alt="Irena Wan" loading="lazy" /></div>
-              <figcaption><span class="star__name">Irena Wan</span><span class="star__role">Co-President</span></figcaption>
-            </figure>
-          </li>
-        </ul>
-
-        <ul class="cast__grid">
-          <li class="star" data-reveal style="--r:1.5deg">
-            <figure class="star__card">
-              <div class="star__photo"><img src="images/board/hana-kim.webp" alt="Hana Kim" loading="lazy" /></div>
-              <figcaption><span class="star__name">Hana Kim</span><span class="star__role">Careers &amp; Treks</span></figcaption>
-            </figure>
-          </li>
-          <li class="star" data-reveal style="--d:.08s; --r:-1.5deg">
-            <figure class="star__card">
-              <div class="star__photo"><img src="images/board/gayatri-sriram.webp" alt="Gayatri Sriram" loading="lazy" /></div>
-              <figcaption><span class="star__name">Gayatri Sriram</span><span class="star__role">Careers &amp; Treks</span></figcaption>
-            </figure>
-          </li>
-          <li class="star" data-reveal style="--d:.16s; --r:2deg">
-            <figure class="star__card">
-              <div class="star__photo"><img src="images/board/camryn-grussmark.webp" alt="Camryn Grussmark" loading="lazy" /></div>
-              <figcaption><span class="star__name">Camryn Grussmark</span><span class="star__role">Speakers &amp; Social</span></figcaption>
-            </figure>
-          </li>
-          <li class="star" data-reveal style="--d:.24s; --r:-2deg">
-            <figure class="star__card">
-              <div class="star__photo"><img src="images/board/divyani-duggal.webp" alt="Divyani Duggal" loading="lazy" /></div>
-              <figcaption><span class="star__name">Divyani Duggal</span><span class="star__role">Alumni Relations</span></figcaption>
-            </figure>
-          </li>
-        </ul>
       </div>
 
       <div class="marquee" aria-hidden="true">
@@ -158,139 +106,6 @@
           <span>Film &amp; TV</span><b>✦</b><span>Live Events</span><b>✦</b><span>Music</span><b>✦</b><span>Gaming</span><b>✦</b><span>News Media</span><b>✦</b><span>Sports</span><b>✦</b><span>Streaming</span><b>✦</b>
           <span>Film &amp; TV</span><b>✦</b><span>Live Events</span><b>✦</b><span>Music</span><b>✦</b><span>Gaming</span><b>✦</b><span>News Media</span><b>✦</b><span>Sports</span><b>✦</b><span>Streaming</span><b>✦</b>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ TREKS ============ -->
-    <section class="section treks" id="treks">
-      <div class="wave wave--top" aria-hidden="true"></div>
-      <div class="container">
-        <p class="eyebrow eyebrow--light" data-reveal><span>No. 02</span> Treks</p>
-        <p class="kicker" data-reveal>🎬 Applications Now Open</p>
-        <h2 class="display display--light" data-split>The <em>NYC Trek</em></h2>
-
-        <div class="trek__meta" data-reveal>
-          <span class="chip">📍 New York City</span>
-          <span class="chip">📅 Thu &amp; Fri · November 12–13, 2026</span>
-          <span class="chip">💵 $30 · Limited to 25 Students</span>
-        </div>
-
-        <!-- Theater marquee sign with chasing bulbs -->
-        <div class="sign" data-reveal>
-          <div class="sign__bulbs" aria-hidden="true"></div>
-          <p class="sign__label" id="countdownLabel">Applications Close In</p>
-          <div class="countdown" id="countdown" aria-live="polite">
-            <div><strong data-cd="d">--</strong><span>Days</span></div>
-            <div><strong data-cd="h">--</strong><span>Hours</span></div>
-            <div><strong data-cd="m">--</strong><span>Minutes</span></div>
-            <div><strong data-cd="s">--</strong><span>Seconds</span></div>
-          </div>
-          <p class="sign__note" id="countdownNote">Apply by <strong>Nov 1 · 11:59 PM ET</strong> · Selected applicants notified by Nov 4</p>
-          <a class="apply-btn" id="applyBtn" href="https://docs.google.com/forms/d/e/1FAIpQLSffLQx_DySNlPL050X9CI62S3n82RpYwDX8dqjCMDMtlH2bog/viewform" target="_blank" rel="noopener">🎟️ Apply Now <span aria-hidden="true">→</span></a>
-        </div>
-
-        <div class="trek__grid">
-          <figure class="trek__media" data-reveal="tilt">
-            <div class="postcard">
-              <img src="images/trek-poster.webp" alt="The NYC Trek poster: two days inside the companies shaping media and entertainment. On the agenda: Skydance, Hearst, Comcast, Mad Realities, and Initial. Thursday and Friday, November 12–13, 2026, New York City. Apply by November 1, 11:59 PM ET." loading="lazy" />
-              <span class="stamp" aria-hidden="true">NYC<small>★ 2026 ★</small></span>
-            </div>
-          </figure>
-
-          <div class="trek__body">
-            <p class="lead lead--light" data-reveal>
-              Join the Media &amp; Entertainment Club for our annual NYC Trek: two days inside the companies shaping media and entertainment.
-            </p>
-
-            <p class="trek__subhead" data-reveal>On the Agenda</p>
-            <ul class="agenda" data-reveal>
-              <li>Skydance</li>
-              <li>Hearst Publishing</li>
-              <li>Comcast</li>
-              <li>Mad Realities</li>
-              <li>Initial Group</li>
-            </ul>
-
-            <p class="trek__subhead" data-reveal>Participants will have the opportunity to:</p>
-            <ul class="trek__list">
-              <li data-reveal style="--d:.05s">
-                <span class="trek__icon">🎥</span>
-                <p>Visit leading M&amp;E companies across film and television, music, sports, and more to learn about their businesses and explore the evolving industry landscape.</p>
-              </li>
-              <li data-reveal style="--d:.15s">
-                <span class="trek__icon">🎙️</span>
-                <p>Hear directly from industry professionals about emerging trends, business challenges, and the future of media and entertainment.</p>
-              </li>
-              <li data-reveal style="--d:.25s">
-                <span class="trek__icon">🤝</span>
-                <p>Network with Wharton alumni and fellow M&amp;E enthusiasts and build connections with professionals shaping the industry.</p>
-              </li>
-            </ul>
-
-            <div class="trek__callout" data-reveal>
-              <ul class="fineprint">
-                <li><strong>$30 fee</strong> includes a networking happy hour. Amtrak ticket <em>not</em> included.</li>
-                <li><strong>Limited to 25 students.</strong> The application asks about your interest in the trek and what you hope to learn; applying doesn’t guarantee a spot.</li>
-                <li><strong>Open to 1Y and 2Y M&amp;E members only.</strong></li>
-                <li><strong>Attendance is required</strong> at all company visits, meals, and the happy hour. Missing an event without prior approval may affect your participation in the rest of the trek and future M&amp;E events.</li>
-                <li><strong>Non-refundable.</strong> Tickets are transferable only to other M&amp;E members, through our waitlist.</li>
-              </ul>
-              <p class="fineprint__contact">
-                Questions? Contact
-                <a href="mailto:gayatri1@wharton.upenn.edu">Gayatri Sriram</a> or
-                <a href="mailto:hanakim1@wharton.upenn.edu">Hana Kim</a>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="wave wave--bottom" aria-hidden="true"></div>
-    </section>
-
-    <!-- ============ CONFERENCE ============ -->
-    <section class="section conference" id="conference">
-      <div class="conference__burst" aria-hidden="true"></div>
-      <div class="container conference__inner">
-        <p class="eyebrow eyebrow--light" data-reveal><span>No. 03</span> Conference</p>
-
-        <div class="leader" aria-hidden="true" data-reveal>
-          <div class="leader__sweep"></div>
-          <div class="leader__cross"></div>
-          <div class="leader__ring"></div>
-          <span class="leader__num" id="leaderNum">5</span>
-        </div>
-
-        <h2 class="display display--light conference__title" data-split>2027 Conference Announcement <em>Coming Soon</em></h2>
-      </div>
-    </section>
-
-    <!-- ============ JOIN ============ -->
-    <section class="section join" id="join">
-      <div class="container join__inner">
-        <p class="eyebrow" data-reveal><span>No. 04</span> Join</p>
-        <h2 class="display" data-split>Take your <em>seat</em>.</h2>
-        <p class="lead" data-reveal>Become a member, hop into the group chat, and follow along to see all our upcoming events.</p>
-
-        <ul class="join__links">
-          <li data-reveal style="--d:.05s">
-            <a href="https://groups.wharton.upenn.edu/mediaentertainment/club_signup" target="_blank" rel="noopener" class="icon-btn icon-btn--plus" aria-label="Join the club">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
-            </a>
-            <span>Join the Club</span>
-          </li>
-          <li data-reveal style="--d:.15s">
-            <a href="https://chat.whatsapp.com/DBrievc0ztX1BZLFdQda2z" target="_blank" rel="noopener" class="icon-btn icon-btn--wa" aria-label="Join our WhatsApp group">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.43 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41"/></svg>
-            </a>
-            <span>WhatsApp Group</span>
-          </li>
-          <li data-reveal style="--d:.25s">
-            <a href="https://www.instagram.com/whartonmbamec/" target="_blank" rel="noopener" class="icon-btn icon-btn--ig" aria-label="Follow us on Instagram">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></svg>
-            </a>
-            <span>Instagram</span>
-          </li>
-        </ul>
       </div>
     </section>
   </main>
